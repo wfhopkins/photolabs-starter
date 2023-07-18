@@ -30,10 +30,15 @@ export const PhotoDetailsModal = (props) => {
     <PhotoFavButton 
       toggleLikedPhotosIds={props.toggleLikedPhotosIds}
       likedPhotosIds={props.likedPhotosIds}
+      photoId={props.selectedId}
     />
     <img className="photo-details-modal__image" src={props.photos.find(photo => photo.id === props.selectedId).urls.full} />
+    <div className="photo-details-modal__photographer-details">
+      <img src={props.photos.find(photo => photo.id === props.selectedId).user.profile} />
+      <p>{props.photos.find(photo => photo.id === props.selectedId).user.username} </p>
+    </div>
     <h2 className="photo-details-modal__header">Similar Photos</h2>
-    <PhotoList 
+    <PhotoList className="photo-details-modal__images"
       photos={Object.values(props.photos.find(photo => photo.id === props.selectedId).similar_photos)}
       toggleLikedPhotosIds={props.toggleLikedPhotosIds}
       likedPhotosIds={props.likedPhotosIds}
