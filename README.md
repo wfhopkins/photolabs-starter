@@ -6,11 +6,15 @@ The PhotoLabs project for the Web Development React course programming.
 ##Screenshots
 
 ![PhotoLabs Homepage](https://github.com/wfhopkins/photolabs-starter/blob/main/docs/PhotoLabs-home.png?raw=true)
+###Homepage
+
 
 ![Open Modal](https://github.com/wfhopkins/photolabs-starter/blob/main/docs/PhotoLabs-modal-open.png?raw=true)
+###Modal
+
 
 ![Similar Photos in Modal](https://github.com/wfhopkins/photolabs-starter/blob/main/docs/PhotoLabs-similar-photos.png?raw=true)
-
+###Similar Photos
 
 ## Setup
 
