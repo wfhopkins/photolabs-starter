@@ -1,12 +1,10 @@
 import React from "react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import "./App.scss";
 import HomeRoute from "./routes/HomeRoute";
 import PhotoDetailsModal from './routes/PhotoDetailsModal'
-
-import photos from './mocks/photos.js';
-import topics from './mocks/topics.js';
 
 import useApplicationData from "./hooks/useApplicationData";
 
@@ -23,6 +21,24 @@ const App = () => {
     selectPhoto,
     closeModal
   } = useApplicationData();
+
+  const [photos, setPhotos] = useState([]);
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    const photosPromise = axios.get("/api/photos")
+    const topicsPromise = axios.get("/api/topics")
+
+    const promises = [photosPromise, topicsPromise];
+
+    Promise.all(promises)
+    .then((results) => {
+      setPhotos(results[0].data);
+      setTopics(results[1].data);
+    })
+  }, []);
+
+
 
   return (
     <div className="App">
