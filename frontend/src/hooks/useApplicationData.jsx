@@ -1,47 +1,75 @@
-// The state object will contain the entire state of the application.
-// The updateToFavPhotoIds action can be used to set the favourite photos.
-// The setPhotoSelected action can be used when the user selects a photo.
-// The onClosePhotoDetailsModal action can be used to close the modal.
+import { useContext, useEffect, useRef, useState, useReducer } from 'react'
 
-// import photos from './src/mocks/photos.js';
-// import topics from './src/mocks/topics.js';
+export const ACTIONS = {
+  FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
+  FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
+  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
+  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
+  SELECT_PHOTO: 'SELECT_PHOTO',
+  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
+}
 
-// import { useState } from 'react'
-import { useContext, useEffect, useRef, useState } from 'react'
+
+function reducer(state, action) {
+  if (action.type === ACTIONS.FAV_PHOTO_ADDED) {
+    const photoId = action.value;
+
+    return {...state, likedPhotosIds: [...state.likedPhotosIds, photoId]}
+  }
+  if (action.type === ACTIONS.FAV_PHOTO_REMOVED) {
+    const photoId = action.value;
+
+    return {...state, likedPhotosIds: state.likedPhotosIds.filter(likedPhotoId => likedPhotoId !== photoId)}
+  }
+
+  if (action.type === ACTIONS.SELECT_PHOTO) {
+    const photoId = action.value;
+
+    return {...state, selectedId: photoId}
+  }
+
+  if (action.type === ACTIONS.DISPLAY_PHOTO_DETAILS) {
+    return {...state, isOpen: action.value}
+  }
+  throw new Error("reducer attempts invalid action");
+}
+
 
 
 const useApplicationData = () => {
-  const [likedPhotosIds, setLikedPhotoIds] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const state = "";
+
+  const [state, dispatch] = useReducer(reducer, {
+    likedPhotosIds: [],
+    selectedId: null,
+    isOpen: false
+    }  
+  );
 
   const selectPhoto = (photoId) => {
     if (!photoId) return;
-    setSelectedId(photoId)
-    setIsOpen(true)
-  };
-
+    dispatch({type: ACTIONS.SELECT_PHOTO, value: photoId})
+    dispatch({type: ACTIONS.DISPLAY_PHOTO_DETAILS, value: true})
+  }
   const toggleLikedPhotosIds = (photoId) => {
     if (!photoId) return;
 
-    if (likedPhotosIds.includes(photoId)) {
+    if (state.likedPhotosIds.includes(photoId)) {
       //remove from the new arrary
-      return setLikedPhotoIds(likedPhotosIds.filter(likedPhotoId => likedPhotoId !== photoId));
+      return dispatch({type: ACTIONS.FAV_PHOTO_REMOVED, value: photoId })
     }
     //add to the new array
-    return setLikedPhotoIds([...likedPhotosIds, photoId]);
+    return dispatch({type: ACTIONS.FAV_PHOTO_ADDED, value: photoId})
   }
 
+  const closeModal = () => {
+    dispatch({type: ACTIONS.DISPLAY_PHOTO_DETAILS, value: false})
+  }
 
     return {
       state,
-      selectedId,
       toggleLikedPhotosIds,
       selectPhoto,
-      isOpen,
-      setIsOpen,
-      likedPhotosIds
+      closeModal
     }
 }
 

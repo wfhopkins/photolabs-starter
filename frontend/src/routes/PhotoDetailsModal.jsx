@@ -9,7 +9,7 @@ import PhotoFavButton from '../components/PhotoFavButton';
 
 export const PhotoDetailsModal = (props) => {
   const handleClick = () => {
-    props.setIsOpen(false);
+    props.closeModal();
   };
 
   const foundPhoto = props.photos.find(photo => photo.id === props.selectedId);
@@ -59,13 +59,3 @@ export const PhotoDetailsModal = (props) => {
 
 
 export default PhotoDetailsModal;
-
-
-
-      {/* <PhotoListItem
-        className="photo-details-modal__image"
-        photo={foundPhoto}
-        toggleLikedPhotosIds={props.toggleLikedPhotosIds}
-        likedPhotosIds={props.likedPhotosIds}
-        selectPhoto={props.selectPhoto}
-      /> */}
