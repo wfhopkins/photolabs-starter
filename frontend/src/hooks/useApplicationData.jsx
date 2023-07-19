@@ -11,22 +11,19 @@ export const ACTIONS = {
   SELECT_TOPIC_ID: 'SELECT_TOPIC_ID'
 }
 
-
 function reducer(state, action) {
   if (action.type === ACTIONS.FAV_PHOTO_ADDED) {
     const photoId = action.value;
-
     return {...state, likedPhotosIds: [...state.likedPhotosIds, photoId]}
   }
+
   if (action.type === ACTIONS.FAV_PHOTO_REMOVED) {
     const photoId = action.value;
-
     return {...state, likedPhotosIds: state.likedPhotosIds.filter(likedPhotoId => likedPhotoId !== photoId)}
   }
 
   if (action.type === ACTIONS.SELECT_PHOTO) {
     const photoId = action.value;
-
     return {...state, selectedId: photoId}
   }
 
@@ -36,13 +33,13 @@ function reducer(state, action) {
 
   if (action.type === ACTIONS.SELECT_TOPIC_ID) {
     const topicId = action.value;
-
     return {...state, selectedTopicId: topicId}
   }
 
   if (action.type === ACTIONS.SET_TOPIC_DATA) {
     return {...state, topics: action.value}
   }
+
   if (action.type === ACTIONS.SET_PHOTO_DATA) {
     return {...state, photos: action.value}
   }
@@ -50,10 +47,7 @@ function reducer(state, action) {
   throw new Error("reducer attempts invalid action")
 }
 
-
-
 const useApplicationData = () => {
-
   const [state, dispatch] = useReducer(reducer, {
     likedPhotosIds: [],
     selectedId: null,
@@ -69,6 +63,7 @@ const useApplicationData = () => {
     dispatch({type: ACTIONS.SELECT_PHOTO, value: photoId})
     dispatch({type: ACTIONS.DISPLAY_PHOTO_DETAILS, value: true})
   }
+
   const toggleLikedPhotosIds = (photoId) => {
     if (!photoId) return;
 
@@ -89,7 +84,6 @@ const useApplicationData = () => {
     dispatch({type: ACTIONS.SELECT_TOPIC_ID, value: topicId})
   }
 
-
   useEffect(() => {
     if (!state.selectedTopicId) return;
     axios.get(`/api/topics/photos/${state.selectedTopicId}`)
@@ -97,7 +91,6 @@ const useApplicationData = () => {
       dispatch({type: ACTIONS.SET_PHOTO_DATA, value: res.data})
     })
   }, [state.selectedTopicId])
-
 
   useEffect(() => {
     const photosPromise = axios.get("/api/photos")
@@ -107,14 +100,10 @@ const useApplicationData = () => {
 
     Promise.all(promises)
     .then((results) => {
-
       dispatch({type: ACTIONS.SET_PHOTO_DATA, value: results[0].data})
       dispatch({type: ACTIONS.SET_TOPIC_DATA, value: results[1].data})
     })
   }, []);
-
-
-
 
     return {
       state,

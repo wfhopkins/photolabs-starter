@@ -1,10 +1,7 @@
 import React from 'react';
-
 import '../styles/PhotoDetailsModal.scss'
 import PhotoList from '../components/PhotoList';
 import PhotoFavButton from '../components/PhotoFavButton';
-
-
 
 
 export const PhotoDetailsModal = (props) => {
@@ -14,7 +11,6 @@ export const PhotoDetailsModal = (props) => {
 
   const foundPhoto = props.photos.find(photo => photo.id === props.selectedId);
 
-  console.log(props);
   return (
   <div className='photo-details-modal'>
     <button className='photo-details-modal__close-button' onClick={handleClick}>
