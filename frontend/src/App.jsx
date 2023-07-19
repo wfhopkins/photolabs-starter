@@ -1,6 +1,5 @@
 import React from "react";
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 
 import "./App.scss";
 import HomeRoute from "./routes/HomeRoute";
@@ -18,42 +17,28 @@ const App = () => {
   const {
     state,
     toggleLikedPhotosIds,
+    selectTopic,
     selectPhoto,
     closeModal
   } = useApplicationData();
-
-  const [photos, setPhotos] = useState([]);
-  const [topics, setTopics] = useState([]);
-
-  useEffect(() => {
-    const photosPromise = axios.get("/api/photos")
-    const topicsPromise = axios.get("/api/topics")
-
-    const promises = [photosPromise, topicsPromise];
-
-    Promise.all(promises)
-    .then((results) => {
-      setPhotos(results[0].data);
-      setTopics(results[1].data);
-    })
-  }, []);
 
 
 
   return (
     <div className="App">
       <HomeRoute
-      photos={photos}
-      topics={topics}
+      photos={state.photos}
+      topics={state.topics}
       toggleLikedPhotosIds={toggleLikedPhotosIds}
       likedPhotosIds={state.likedPhotosIds}
       selectPhoto={selectPhoto}
+      selectTopic={selectTopic}
       />
       {state.isOpen && <PhotoDetailsModal
-      photos={photos}
+      photos={state.photos}
       selectedId={state.selectedId}
       closeModal={closeModal}
-      topics={topics}
+      topics={state.topics}
       toggleLikedPhotosIds={toggleLikedPhotosIds}
       likedPhotosIds={state.likedPhotosIds}
       selectPhoto={selectPhoto}

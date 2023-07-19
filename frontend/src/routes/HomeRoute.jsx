@@ -10,6 +10,7 @@ const HomeRoute = (props) => {
 
   return (<div className="home-route">
     <TopNavigation
+      selectTopic={props.selectTopic}
       topics={props.topics}
       likedPhotosIds={props.likedPhotosIds}
     />
