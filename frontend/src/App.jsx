@@ -8,30 +8,45 @@ import PhotoDetailsModal from './routes/PhotoDetailsModal'
 import photos from './mocks/photos.js';
 import topics from './mocks/topics.js';
 
+import useApplicationData from "./hooks/useApplicationData";
 
 
 // Note: Rendering a single component to build components in isolation
+/**
+ * JS Doc
+ * 
+ */
 const App = () => {
-  const [likedPhotosIds, setLikedPhotoIds] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const {
+    state,
+    selectedId,
+    toggleLikedPhotosIds,
+    selectPhoto,
+    isOpen,
+    setIsOpen,
+    likedPhotosIds
+  } = useApplicationData();
 
-  const selectPhoto = (photoId) => {
-    if (!photoId) return;
-    setSelectedId(photoId)
-    setIsOpen(true)
-  };
+  // const [likedPhotosIds, setLikedPhotoIds] = useState([]);
+  // const [selectedId, setSelectedId] = useState(null);
+  // const [isOpen, setIsOpen] = useState(false);
 
-  const toggleLikedPhotosIds = (photoId) => {
-    if (!photoId) return;
+  // const selectPhoto = (photoId) => {
+  //   if (!photoId) return;
+  //   setSelectedId(photoId)
+  //   setIsOpen(true)
+  // };
 
-    if (likedPhotosIds.includes(photoId)) {
-      //remove from the new arrary
-      return setLikedPhotoIds(likedPhotosIds.filter(likedPhotoId => likedPhotoId !== photoId));
-    }
-    //add to the new array
-    return setLikedPhotoIds([...likedPhotosIds, photoId]);
-  }
+  // const toggleLikedPhotosIds = (photoId) => {
+  //   if (!photoId) return;
+
+  //   if (likedPhotosIds.includes(photoId)) {
+  //     //remove from the new arrary
+  //     return setLikedPhotoIds(likedPhotosIds.filter(likedPhotoId => likedPhotoId !== photoId));
+  //   }
+  //   //add to the new array
+  //   return setLikedPhotoIds([...likedPhotosIds, photoId]);
+  // }
 
   return (
     <div className="App">
@@ -49,6 +64,7 @@ const App = () => {
       topics={topics}
       toggleLikedPhotosIds={toggleLikedPhotosIds}
       likedPhotosIds={likedPhotosIds}
+      selectPhoto={selectPhoto}
       />}
     </div>
   );

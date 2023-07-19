@@ -11,6 +11,9 @@ export const PhotoDetailsModal = (props) => {
   const handleClick = () => {
     props.setIsOpen(false);
   };
+
+  const foundPhoto = props.photos.find(photo => photo.id === props.selectedId);
+
   console.log(props);
   return (
   <div className='photo-details-modal'>
@@ -27,26 +30,42 @@ export const PhotoDetailsModal = (props) => {
         </defs>
       </svg>
     </button>
-    <PhotoFavButton 
-      toggleLikedPhotosIds={props.toggleLikedPhotosIds}
-      likedPhotosIds={props.likedPhotosIds}
-      photoId={props.selectedId}
-    />
-    <img className="photo-details-modal__image" src={props.photos.find(photo => photo.id === props.selectedId).urls.full} />
-    <div className="photo-details-modal__photographer-details">
-      <img src={props.photos.find(photo => photo.id === props.selectedId).user.profile} />
-      <p>{props.photos.find(photo => photo.id === props.selectedId).user.username} </p>
+
+    <div className="photo-details-modal__images">
+      <PhotoFavButton 
+        toggleLikedPhotosIds={props.toggleLikedPhotosIds}
+        likedPhotosIds={props.likedPhotosIds}
+        photoId={props.selectedId}
+      />
+      <img className="photo-details-modal__image" src={foundPhoto.urls.full} />
+      <div className="photo-details-modal__photographer-details">
+        <div className="photo-list__user-info">
+          <img className="photo-list__user-profile" src={foundPhoto.user.profile} />
+          <p>{foundPhoto.user.username}</p>
+          <p className="photo-list__user-location">{foundPhoto.location.city}, {foundPhoto.location.country}</p>
+        </div>
+      </div>
+      <h2 className="photo-details-modal__header">Similar Photos</h2>
+      <PhotoList
+        photos={Object.values(foundPhoto.similar_photos)}
+        toggleLikedPhotosIds={props.toggleLikedPhotosIds}
+        likedPhotosIds={props.likedPhotosIds}
+        selectPhoto={props.selectPhoto}
+      />    
     </div>
-    <h2 className="photo-details-modal__header">Similar Photos</h2>
-    <PhotoList className="photo-details-modal__images"
-      photos={Object.values(props.photos.find(photo => photo.id === props.selectedId).similar_photos)}
-      toggleLikedPhotosIds={props.toggleLikedPhotosIds}
-      likedPhotosIds={props.likedPhotosIds}
-      selectPhoto={props.selectPhoto}
-    />    
   </div>
   );
 };
 
 
 export default PhotoDetailsModal;
+
+
+
+      {/* <PhotoListItem
+        className="photo-details-modal__image"
+        photo={foundPhoto}
+        toggleLikedPhotosIds={props.toggleLikedPhotosIds}
+        likedPhotosIds={props.likedPhotosIds}
+        selectPhoto={props.selectPhoto}
+      /> */}
